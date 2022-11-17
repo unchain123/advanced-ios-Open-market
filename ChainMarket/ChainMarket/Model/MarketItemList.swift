@@ -8,5 +8,6 @@
 import Foundation
 
 struct MarketItemList {
-    let pages: [MarketItem]
+    let page: Int
+    let items: [MarketItem]
 }

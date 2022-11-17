@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
 
-        let marketItemListViewController = ViewController()
+        let marketItemListViewController = MarketListViewController()
         let navigationController = UINavigationController(rootViewController: marketItemListViewController)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()

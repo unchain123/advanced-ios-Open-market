@@ -11,7 +11,7 @@ final class NetworkManager {
     private let session: URLSession
     static let okStatusCode: Range<Int> = (200 ..< 300)
 
-    init(session: URLSession) {
+    init(session: URLSession = .shared) {
         self.session = session
     }
 
@@ -36,5 +36,11 @@ final class NetworkManager {
             completion(.success(data))
         }
         dataTask.resume()
+    }
+
+    func fetch(completion: @escaping (Result<Data, NetworkError>) -> Void) {
+        guard let request = try? EndPoint.list(page: 1, itemPerPage: 20).createURLRequest() else { return }
+
+        networkPerform(for: request, completion: completion)
     }
 }

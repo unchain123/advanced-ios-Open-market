@@ -72,26 +72,37 @@ extension RequestProtocol {
 
         guard let url = components.url else { throw NetworkError.components}
 
-        var urlRequest = URLRequest(url: url, httpMethod: httpMethod)
+        let urlRequest = URLRequest(url: url, httpMethod: httpMethod)
 
         return urlRequest
     }
 }
 
 enum EndPoint: RequestProtocol {
+    case list(page: Int, itemPerPage: Int = 20)
+
     var path: String {
-        return "api/products"
+        switch self {
+        default:
+            return "api/products"
+        }
     }
 
-    var queries: [String : String] {
-        return [:]
+    var queries: [String: String] {
+        switch self {
+        case let .list(page, itemPerPage):
+            return ["page_no": "\(page)",
+                    "items_per_page": "\(itemPerPage)"]
+        default:
+            return [:]
+        }
     }
 
     var httpMethod: HTTPMethod {
         return HTTPMethod.get
     }
 
-    var headers: [String : String] {
+    var headers: [String: String] {
         return [:]
     }
 }

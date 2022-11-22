@@ -13,7 +13,7 @@ private enum Section: Hashable {
 
 class MarketListViewController: UIViewController {
 
-    private var dataSource: UICollectionViewDiffableDataSource<Section, MarketItem>?
+    private var dataSource: UICollectionViewDiffableDataSource<Section, MarketItemList>?
 
     private lazy var listCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
@@ -48,5 +48,13 @@ extension MarketListViewController {
     private func createLayout() -> UICollectionViewLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         return UICollectionViewCompositionalLayout.list(using: config)
+    }
+}
+
+extension MarketListViewController {
+    private func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, MarketItem> { (cell, indexPath, item) in
+            cell.up
+        }
     }
 }

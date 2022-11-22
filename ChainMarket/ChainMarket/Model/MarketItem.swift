@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MarketItem: Decodable , Hashable{
+struct MarketItem: Decodable, Hashable {
     let id: Int
     let vendorId: Int
     let vendorName: String

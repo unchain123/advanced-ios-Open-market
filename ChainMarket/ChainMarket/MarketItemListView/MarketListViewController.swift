@@ -13,7 +13,7 @@ private enum Section: Hashable {
 
 class MarketListViewController: UIViewController {
 
-    private var dataSource: UICollectionViewDiffableDataSource<Section, MarketItemList>?
+    private var dataSource: UICollectionViewDiffableDataSource<Section, MarketItem>?
 
     private lazy var listCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
@@ -53,8 +53,16 @@ extension MarketListViewController {
 
 extension MarketListViewController {
     private func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, MarketItem> { (cell, indexPath, item) in
-            cell.up
+        let cellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, MarketItem> { (cell, _, _) in
+            cell.accessories = [.disclosureIndicator()]
         }
+
+        dataSource = UICollectionViewDiffableDataSource<Section, MarketItem>(collectionView: listCollectionView) {(collectionView: UICollectionView, indexPath: IndexPath, item: MarketItem) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
+        }
+
+        var snapshot = NSDiffableDataSourceSnapshot<Section, MarketItem>()
+        snapshot.appendSections([.main])
+        dataSource?.apply(snapshot, animatingDifferences: false)
     }
 }

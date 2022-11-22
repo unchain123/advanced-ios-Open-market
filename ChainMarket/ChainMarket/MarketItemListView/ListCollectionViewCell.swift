@@ -65,7 +65,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         return stack
     }()
 
-    //MARK: Method
+    // MARK: Method
 
     private func setListView() {
         contentView.addSubview(itemThumbnailImageView)

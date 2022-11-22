@@ -24,8 +24,8 @@ final class MarketItemListViewModel {
     func list() {
         useCase.fetchedItem { [weak self] result in
             switch result {
-            case .success(let Items):
-                self?.marketItems.append(contentsOf: Items)
+            case .success(let items):
+                self?.marketItems.append(contentsOf: items)
             case .failure(let error):
                 print(error.localizedDescription)
             }

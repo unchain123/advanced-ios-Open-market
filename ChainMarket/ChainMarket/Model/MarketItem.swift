@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MarketItem: Decodable {
+struct MarketItem: Decodable , Hashable{
     let id: Int
     let vendorId: Int
     let vendorName: String
@@ -21,6 +21,7 @@ struct MarketItem: Decodable {
     let stock: Int
     let createdAt: Date
     let issuedAt: Date
+    let images: [Images]?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -35,6 +36,23 @@ struct MarketItem: Decodable {
         case discountedPrice = "discounted_price"
         case stock
         case createdAt = "created_at"
+        case issuedAt = "issued_at"
+        case images
+    }
+}
+
+struct Images: Decodable, Hashable {
+    let id: Int
+    let url: String
+    let thumbnailUrl: String
+    let succeed: Bool
+    let issuedAt: String
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case url
+        case thumbnailUrl = "thumbnail_url"
+        case succeed
         case issuedAt = "issued_at"
     }
 }

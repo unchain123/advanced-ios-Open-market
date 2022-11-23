@@ -60,6 +60,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
     let stockStackView: UIStackView = {
         let stack = UIStackView()
         stack.alignment = .top
+        stack.axis = .vertical
         stack.distribution = .fill
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
@@ -102,5 +103,31 @@ final class ListCollectionViewCell: UICollectionViewListCell {
             stockStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             stockStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
+    }
+
+    private func bind(with viewModel: MarketItemListViewModel) {
+        self.viewModel = viewModel
+
+        viewModel.bind { [weak self] state in
+            guard let self = self else { return }
+            switch state {
+            case .update(let metaData):
+                self.itemThumbnailImageView.image = metaData.thumbnail
+                self.itemNameLabel.text = metaData.title
+                self.itemStockLabel.text = metaData.stock
+                self.itemPriceLabel.text = metaData.price
+                self.bargainPriceLabel.isHidden = !metaData.hasDiscountedPrice
+                self.bargainPriceLabel.attributedText = metaData.discountedPrice
+                self.itemStockLabel.textColor = metaData.isOutOfStock ? .systemOrange : .systemGray
+            case .error(_):
+                self.itemThumbnailImageView.image = nil
+            default:
+                break
+            }
+        }
+    }
+
+    func fire() {
+        viewModel?.fire()
     }
 }

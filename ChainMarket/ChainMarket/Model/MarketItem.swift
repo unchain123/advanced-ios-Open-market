@@ -13,11 +13,11 @@ struct MarketItem: Decodable, Hashable {
     let vendorName: String
     let name: String
     let description: String
-    let thumbnail: String
+    let thumbnail: String?
     let currency: String
     let price: Int
-    let bargainPrice: Int
-    let discountedPrice: Int
+    let bargainPrice: Int?
+    let discountedPrice: Int?
     let stock: Int
     let createdAt: Date
     let issuedAt: Date

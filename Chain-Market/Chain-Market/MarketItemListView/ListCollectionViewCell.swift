@@ -8,11 +8,12 @@
 import UIKit
 
 final class ListCollectionViewCell: UICollectionViewListCell {
+
     // MARK: Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setListConstraints()
         setListView()
+        setListConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -21,7 +22,6 @@ final class ListCollectionViewCell: UICollectionViewListCell {
 
     // MARK: Properties
 
-    private var viewModel: MarketItemListViewModel?
     static let reuseIdentifier = "ListCollectionViewCell"
 
     let itemThumbnailImageView: UIImageView = {
@@ -59,7 +59,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
 
     let stockStackView: UIStackView = {
         let stack = UIStackView()
-        stack.alignment = .top
+        stack.alignment = .trailing
         stack.axis = .vertical
         stack.distribution = .fill
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -68,12 +68,20 @@ final class ListCollectionViewCell: UICollectionViewListCell {
 
     // MARK: Method
 
+    func setupUI(_ product: MarketItem) {
+        itemNameLabel.text = product.name
+        itemStockLabel.text = String(product.stock)
+        itemPriceLabel.text = String(product.price)
+        bargainPriceLabel.text = String(product.bargainPrice!)
+        itemThumbnailImageView.image = UIImage(systemName: "plus")
+    }
+
     private func setListView() {
         contentView.addSubview(itemThumbnailImageView)
         contentView.addSubview(itemNameLabel)
         contentView.addSubview(itemPriceLabel)
         contentView.addSubview(bargainPriceLabel)
-        contentView.addSubview(itemStockLabel)
+        contentView.addSubview(stockStackView)
 
         stockStackView.addArrangedSubview(itemStockLabel)
     }
@@ -84,50 +92,26 @@ final class ListCollectionViewCell: UICollectionViewListCell {
             itemThumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             itemThumbnailImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             itemThumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            itemThumbnailImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.8),
+            itemThumbnailImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.3),
             // MARK: itemNameLabel
             itemNameLabel.leadingAnchor.constraint(equalTo: itemThumbnailImageView.trailingAnchor),
             itemNameLabel.topAnchor.constraint(equalTo: itemThumbnailImageView.topAnchor),
-            itemNameLabel.trailingAnchor.constraint(equalTo: itemStockLabel.leadingAnchor),
+            itemNameLabel.trailingAnchor.constraint(equalTo: stockStackView.leadingAnchor),
             // MARK: itemPriceLabel
             itemPriceLabel.leadingAnchor.constraint(equalTo: bargainPriceLabel.trailingAnchor),
             itemPriceLabel.topAnchor.constraint(equalTo: itemNameLabel.bottomAnchor),
-            itemPriceLabel.trailingAnchor.constraint(equalTo: itemStockLabel.leadingAnchor),
+            itemPriceLabel.trailingAnchor.constraint(equalTo: stockStackView.leadingAnchor),
             itemPriceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             // MARK: bargainPriceLabel
             bargainPriceLabel.leadingAnchor.constraint(equalTo: itemThumbnailImageView.trailingAnchor),
             bargainPriceLabel.topAnchor.constraint(equalTo: itemNameLabel.bottomAnchor),
-            bargainPriceLabel.trailingAnchor.constraint(equalTo: itemStockLabel.leadingAnchor),
+            bargainPriceLabel.trailingAnchor.constraint(equalTo: stockStackView.leadingAnchor),
             bargainPriceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             // MARK: itemStockLabel
             stockStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             stockStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             stockStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
-    }
-
-    private func bind(with viewModel: MarketItemListViewModel) {
-        self.viewModel = viewModel
-
-        viewModel.bind { [weak self] state in
-            guard let self = self else { return }
-            switch state {
-            case .update(let metaData):
-                self.itemThumbnailImageView.image = metaData.thumbnail
-                self.itemNameLabel.text = metaData.title
-                self.itemStockLabel.text = metaData.stock
-                self.itemPriceLabel.text = metaData.price
-                self.bargainPriceLabel.isHidden = !metaData.hasDiscountedPrice
-                self.bargainPriceLabel.attributedText = metaData.discountedPrice
-                self.itemStockLabel.textColor = metaData.isOutOfStock ? .systemOrange : .systemGray
-            case .error(_):
-                self.itemThumbnailImageView.image = nil
-            default:
-                break
-            }
-        }
-    }
-
-    func fire() {
-        viewModel?.fire()
     }
 }

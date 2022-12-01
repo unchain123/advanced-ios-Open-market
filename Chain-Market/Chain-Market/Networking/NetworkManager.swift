@@ -23,7 +23,7 @@ final class NetworkManager {
             }
             guard let response = response as? HTTPURLResponse else {
                 completion(.failure(.invalidHTTPResponse))
-                           return
+                return
             }
             guard NetworkManager.okStatusCode ~= response.statusCode else {
                 completion(.failure(.invalidHttpStatusCode(response.statusCode)))
@@ -38,9 +38,23 @@ final class NetworkManager {
         dataTask.resume()
     }
 
-    func fetch(completion: @escaping (Result<Data, NetworkError>) -> Void) {
+    private func fetch(completion: @escaping (Result<Data, NetworkError>) -> Void) {
         guard let request = try? EndPoint.list(page: 1, itemPerPage: 20).createURLRequest() else { return }
-
+        print(request.description)
         networkPerform(for: request, completion: completion)
+    }
+
+    func fetchList(completion: @escaping (Result<[MarketItem], NetworkError>) -> Void) {
+        fetch() { result in
+            switch result {
+            case .success(let data):
+                guard let item = try? JSONDecoder().decode(MarketInformation.self, from: data) else {
+                    print("디코딩error")
+                    return }
+                completion(.success(item.pages))
+            case .failure(let error):
+                print("\(error.localizedDescription)")
+            }
+        }
     }
 }

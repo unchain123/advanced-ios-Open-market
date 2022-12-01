@@ -7,26 +7,38 @@
 
 import Foundation
 
+struct MarketInformation: Decodable {
+    let pageNo: Int
+    let itemsPerPage: Int
+    let totalCount: Int
+    let offset: Int
+    let limit: Int
+    let lastPage: Int
+    let hasNext: Bool
+    let hasPrev: Bool
+    let pages: [MarketItem]
+}
+
 struct MarketItem: Decodable, Hashable {
     let id: Int
     let vendorId: Int
     let vendorName: String
     let name: String
     let description: String
-    let thumbnail: String?
+    let thumbnail: String
     let currency: String
-    let price: Int
-    let bargainPrice: Int?
-    let discountedPrice: Int?
+    let price: Double
+    let bargainPrice: Double?
+    let discountedPrice: Double?
     let stock: Int
-    let createdAt: Date
-    let issuedAt: Date
+    let createdAt: String
+    let issuedAt: String
     let images: [Images]?
 
     enum CodingKeys: String, CodingKey {
         case id
         case vendorId = "vendor_id"
-        case vendorName = "vendor_name"
+        case vendorName
         case name
         case description
         case thumbnail

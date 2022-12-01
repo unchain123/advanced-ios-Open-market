@@ -70,7 +70,9 @@ extension RequestProtocol {
         components.host = host
         components.path = path
 
-        guard let url = components.url else { throw NetworkError.components}
+        components.queryItems = queries.map(URLQueryItem.init(name:value:))
+        print(components)
+        guard let url = components.url else { throw NetworkError.components }
 
         let urlRequest = URLRequest(url: url, httpMethod: httpMethod)
 
@@ -84,7 +86,7 @@ enum EndPoint: RequestProtocol {
     var path: String {
         switch self {
         default:
-            return "api/products"
+            return "/api/products"
         }
     }
 

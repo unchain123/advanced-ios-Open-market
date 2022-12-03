@@ -12,6 +12,8 @@ final class ListCollectionViewCell: UICollectionViewListCell {
     // MARK: Init
     override init(frame: CGRect) {
         super.init(frame: frame)
+        contentView.addSubview(itemThumbnailImageView)
+        contentView.addSubview(totalStackView)
         setListView()
         setListConstraints()
     }
@@ -26,7 +28,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
 
     let itemThumbnailImageView: UIImageView = {
         let image = UIImageView()
-        image.contentMode = .scaleAspectFit
+        image.layer.cornerRadius = 10
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -57,11 +59,30 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         return label
     }()
 
-    let stockStackView: UIStackView = {
+    let itemNameStockStackView: UIStackView = {
         let stack = UIStackView()
-        stack.alignment = .trailing
-        stack.axis = .vertical
+        stack.alignment = .bottom
+        stack.axis = .horizontal
         stack.distribution = .fill
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+
+    let priceStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.alignment = .top
+        stack.axis = .horizontal
+        stack.distribution = .fill
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+
+    let totalStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.alignment = .fill
+        stack.axis = .vertical
+        stack.spacing = 5
+        stack.distribution = .fillEqually
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -77,41 +98,28 @@ final class ListCollectionViewCell: UICollectionViewListCell {
     }
 
     private func setListView() {
-        contentView.addSubview(itemThumbnailImageView)
-        contentView.addSubview(itemNameLabel)
-        contentView.addSubview(itemPriceLabel)
-        contentView.addSubview(bargainPriceLabel)
-        contentView.addSubview(stockStackView)
+        totalStackView.addArrangedSubview(itemNameStockStackView)
+        totalStackView.addArrangedSubview(priceStackView)
 
-        stockStackView.addArrangedSubview(itemStockLabel)
+        itemNameStockStackView.addArrangedSubview(itemNameLabel)
+        itemNameStockStackView.addArrangedSubview(itemStockLabel)
+
+        priceStackView.addArrangedSubview(bargainPriceLabel)
+        priceStackView.addArrangedSubview(itemPriceLabel)
     }
 
     private func setListConstraints() {
         NSLayoutConstraint.activate([
             // MARK: itemThumbnailImageView
-            itemThumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            itemThumbnailImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            itemThumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            itemThumbnailImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.8),
-            itemThumbnailImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.3),
-            // MARK: itemNameLabel
-            itemNameLabel.leadingAnchor.constraint(equalTo: itemThumbnailImageView.trailingAnchor),
-            itemNameLabel.topAnchor.constraint(equalTo: itemThumbnailImageView.topAnchor),
-            itemNameLabel.trailingAnchor.constraint(equalTo: stockStackView.leadingAnchor),
-            // MARK: itemPriceLabel
-            itemPriceLabel.leadingAnchor.constraint(equalTo: bargainPriceLabel.trailingAnchor),
-            itemPriceLabel.topAnchor.constraint(equalTo: itemNameLabel.bottomAnchor),
-            itemPriceLabel.trailingAnchor.constraint(equalTo: stockStackView.leadingAnchor),
-            itemPriceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            // MARK: bargainPriceLabel
-            bargainPriceLabel.leadingAnchor.constraint(equalTo: itemThumbnailImageView.trailingAnchor),
-            bargainPriceLabel.topAnchor.constraint(equalTo: itemNameLabel.bottomAnchor),
-            bargainPriceLabel.trailingAnchor.constraint(equalTo: stockStackView.leadingAnchor),
-            bargainPriceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            // MARK: itemStockLabel
-            stockStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            stockStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            stockStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            itemThumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            itemThumbnailImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.4),
+            itemThumbnailImageView.widthAnchor.constraint(equalTo: itemThumbnailImageView.heightAnchor),
+            itemThumbnailImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            // MARK: totalStackView
+            totalStackView.leadingAnchor.constraint(equalTo: itemThumbnailImageView.trailingAnchor, constant: 20),
+            totalStackView.topAnchor.constraint(equalTo: itemThumbnailImageView.topAnchor),
+            totalStackView.bottomAnchor.constraint(equalTo: itemThumbnailImageView.bottomAnchor),
+            totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5)
         ])
     }
 }

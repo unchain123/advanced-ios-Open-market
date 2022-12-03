@@ -39,7 +39,7 @@ class MarketListViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addedButton)
         setUI()
-
+        setCollectionViewConstraint()
         viewModel.delegate = self
         viewModel.action(.viewDidLoad)
         listCollectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.reuseIdentifier)
@@ -49,16 +49,27 @@ class MarketListViewController: UIViewController {
     private func setUI() {
         view.addSubview(listCollectionView)
     }
+
+    private func setCollectionViewConstraint() {
+        NSLayoutConstraint.activate([
+            listCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            listCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            listCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            listCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
+        ])
+    }
 }
 
 // MARK: CollectionLayout
 
 extension MarketListViewController {
     private func createLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1.35))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                              heightDimension: .fractionalHeight(1.35))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                               heightDimension: .fractionalHeight(0.1))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
         group.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: .zero)
 
@@ -81,6 +92,7 @@ extension MarketListViewController {
     }
 }
 
+//MARK: Delegate
 extension MarketListViewController: CustomDelegate {
     func delegate(input: [MarketItem]) {
         snapShot.appendSections([.main])

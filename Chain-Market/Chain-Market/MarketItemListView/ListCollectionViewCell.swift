@@ -98,7 +98,17 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         itemNameLabel.text = product.name
         showSoldOut(product: product)
         showPrice(product: product)
-        itemThumbnailImageView.image = UIImage(systemName: "plus")
+        loadThumbnail(product) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let thumbnail):
+                DispatchQueue.main.async {
+                    self.itemThumbnailImageView.image = thumbnail
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 
     private func showPrice(product: MarketItem) {
@@ -122,6 +132,32 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         } else {
             itemStockLabel.text = "잔여수량 : \(product.stock)"
             itemStockLabel.textColor = .systemGray
+        }
+    }
+
+    private func loadThumbnail(_ path: MarketItem, completion: @escaping (Result<UIImage?, ImageCacheError>) -> Void) {
+        guard let cacheKey = NSURL(string: path.thumbnail) else {
+            completion(.failure(.emptyPath))
+            return
+        }
+
+        if let cachedThumbnail = ImageCacheManager.shared.object(forKey: cacheKey) {
+            completion(.success(cachedThumbnail))
+            return
+        }
+
+        NetworkManager().fetchThumbnail(item: path.thumbnail) { result in
+            switch result {
+            case .success(let data):
+                guard let thumbnail = UIImage(data: data) else {
+                    completion(.failure(.emptyData))
+                    return
+                }
+                completion(.success(thumbnail))
+                ImageCacheManager.shared.setObject(thumbnail, forKey: cacheKey)
+            case .failure(let error):
+                completion(.failure(.networkError(error)))
+            }
         }
     }
 

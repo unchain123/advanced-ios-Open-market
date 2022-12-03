@@ -6,6 +6,14 @@
 //
 
 import Foundation
+import UIKit.UIImage
+
+enum ImageCacheError: Error {
+
+    case networkError(Error)
+    case emptyPath
+    case emptyData
+}
 
 final class NetworkManager {
     private let session: URLSession
@@ -55,5 +63,14 @@ final class NetworkManager {
                 print("\(error.localizedDescription)")
             }
         }
+    }
+
+    func fetchThumbnail(item: String, completion: @escaping (Result<Data, NetworkError>) -> Void ) {
+        guard let url = URL(string: item) else {
+            completion(.failure(.emptyData))
+            return
+        }
+        let request = URLRequest(url: url)
+            networkPerform(for: request, completion: completion)
     }
 }

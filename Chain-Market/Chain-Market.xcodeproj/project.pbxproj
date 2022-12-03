@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F840BC4293B6E13005EFAAA /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F840BC3293B6E13005EFAAA /* CacheManager.swift */; };
 		8F8DBF72292FD877002E6ABF /* MarketListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8DBF5C292FD876002E6ABF /* MarketListViewModel.swift */; };
 		8F8DBF74292FD877002E6ABF /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8DBF5E292FD876002E6ABF /* ListCollectionViewCell.swift */; };
 		8F8DBF75292FD877002E6ABF /* MarketListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8DBF5F292FD876002E6ABF /* MarketListViewController.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8F840BC3293B6E13005EFAAA /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		8F8DBF43292FD863002E6ABF /* Chain-Market.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chain-Market.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F8DBF54292FD863002E6ABF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8F8DBF5C292FD876002E6ABF /* MarketListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketListViewModel.swift; sourceTree = "<group>"; };
@@ -51,6 +53,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8F840BC2293B6DEF005EFAAA /* ThumbnailCache */ = {
+			isa = PBXGroup;
+			children = (
+				8F840BC3293B6E13005EFAAA /* CacheManager.swift */,
+			);
+			path = ThumbnailCache;
+			sourceTree = "<group>";
+		};
 		8F8DBF3A292FD863002E6ABF = {
 			isa = PBXGroup;
 			children = (
@@ -101,6 +111,7 @@
 		8F8DBF60292FD877002E6ABF /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				8F840BC2293B6DEF005EFAAA /* ThumbnailCache */,
 				8F8DBF61292FD877002E6ABF /* NetworkManager.swift */,
 				8F8DBF62292FD877002E6ABF /* NetworkError.swift */,
 				8F8DBF63292FD877002E6ABF /* EndPoint.swift */,
@@ -226,6 +237,7 @@
 				8F8DBF72292FD877002E6ABF /* MarketListViewModel.swift in Sources */,
 				8F8DBF78292FD877002E6ABF /* EndPoint.swift in Sources */,
 				8F8DBF7D292FD877002E6ABF /* AppDelegate.swift in Sources */,
+				8F840BC4293B6E13005EFAAA /* CacheManager.swift in Sources */,
 				8F8DBF79292FD877002E6ABF /* string+extensions.swift in Sources */,
 				8F8DBF75292FD877002E6ABF /* MarketListViewController.swift in Sources */,
 				8F8DBF7E292FD877002E6ABF /* SceneDelegate.swift in Sources */,

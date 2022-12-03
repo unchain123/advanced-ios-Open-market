@@ -40,7 +40,6 @@ final class NetworkManager {
 
     private func fetch(completion: @escaping (Result<Data, NetworkError>) -> Void) {
         guard let request = try? EndPoint.list(page: 1, itemPerPage: 20).createURLRequest() else { return }
-        print(request.description)
         networkPerform(for: request, completion: completion)
     }
 

@@ -16,6 +16,8 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         contentView.addSubview(totalStackView)
         setListView()
         setListConstraints()
+        self.accessories = [.disclosureIndicator()]
+        self.contentView.layer.addBottomBorder()
     }
 
     required init?(coder: NSCoder) {
@@ -26,40 +28,42 @@ final class ListCollectionViewCell: UICollectionViewListCell {
 
     static let reuseIdentifier = "ListCollectionViewCell"
 
-    let itemThumbnailImageView: UIImageView = {
+    private let itemThumbnailImageView: UIImageView = {
         let image = UIImageView()
         image.layer.cornerRadius = 10
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
 
-    let itemNameLabel: UILabel = {
+    private let itemNameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .headline)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    let itemPriceLabel: UILabel = {
+    private let itemPriceLabel: UILabel = {
+        let label = UILabel()
+        label.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private let bargainPriceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    let bargainPriceLabel: UILabel = {
+    private let itemStockLabel: UILabel = {
         let label = UILabel()
+        label.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    let itemStockLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    let itemNameStockStackView: UIStackView = {
+    private let itemNameStockStackView: UIStackView = {
         let stack = UIStackView()
         stack.alignment = .bottom
         stack.axis = .horizontal
@@ -68,16 +72,17 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         return stack
     }()
 
-    let priceStackView: UIStackView = {
+    private let priceStackView: UIStackView = {
         let stack = UIStackView()
         stack.alignment = .top
         stack.axis = .horizontal
         stack.distribution = .fill
+        stack.spacing = 10
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
 
-    let totalStackView: UIStackView = {
+    private let totalStackView: UIStackView = {
         let stack = UIStackView()
         stack.alignment = .fill
         stack.axis = .vertical
@@ -91,10 +96,33 @@ final class ListCollectionViewCell: UICollectionViewListCell {
 
     func setupUI(_ product: MarketItem) {
         itemNameLabel.text = product.name
-        itemStockLabel.text = String(product.stock)
-        itemPriceLabel.text = String(product.price)
-        bargainPriceLabel.text = String(product.bargainPrice!)
+        showSoldOut(product: product)
+        showPrice(product: product)
         itemThumbnailImageView.image = UIImage(systemName: "plus")
+    }
+
+    private func showPrice(product: MarketItem) {
+        itemPriceLabel.text = "\(product.currency) \(product.price)"
+        if product.discountedPrice == 0 {
+            itemPriceLabel.textColor = .systemGray
+            bargainPriceLabel.isHidden = true
+        } else {
+            bargainPriceLabel.isHidden = false
+            itemPriceLabel.textColor = .systemRed
+            bargainPriceLabel.text = "\(product.currency) \(product.bargainPrice)"
+            itemPriceLabel.attributedText = itemPriceLabel.text?.strikeThrough()
+            bargainPriceLabel.textColor = .systemGray
+        }
+    }
+
+    private func showSoldOut(product: MarketItem) {
+        if product.stock == 0 {
+            itemStockLabel.text = "품절"
+            itemStockLabel.textColor = .systemOrange
+        } else {
+            itemStockLabel.text = "잔여수량 : \(product.stock)"
+            itemStockLabel.textColor = .systemGray
+        }
     }
 
     private func setListView() {
@@ -104,8 +132,8 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         itemNameStockStackView.addArrangedSubview(itemNameLabel)
         itemNameStockStackView.addArrangedSubview(itemStockLabel)
 
-        priceStackView.addArrangedSubview(bargainPriceLabel)
         priceStackView.addArrangedSubview(itemPriceLabel)
+        priceStackView.addArrangedSubview(bargainPriceLabel)
     }
 
     private func setListConstraints() {
@@ -121,5 +149,18 @@ final class ListCollectionViewCell: UICollectionViewListCell {
             totalStackView.bottomAnchor.constraint(equalTo: itemThumbnailImageView.bottomAnchor),
             totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5)
         ])
+    }
+}
+
+//MARK: Extension CALayer
+
+extension CALayer {
+    func addBottomBorder() {
+        let border = CALayer()
+        let borderFrameSize = CGRect(x: 8, y: frame.height - 5, width: frame.width - 8, height: 1)
+
+        border.backgroundColor = UIColor.systemGray3.cgColor
+        border.frame = borderFrameSize
+        self.addSublayer(border)
     }
 }

@@ -71,7 +71,6 @@ extension RequestProtocol {
         components.path = path
 
         components.queryItems = queries.map(URLQueryItem.init(name:value:))
-        print(components)
         guard let url = components.url else { throw NetworkError.components }
 
         let urlRequest = URLRequest(url: url, httpMethod: httpMethod)

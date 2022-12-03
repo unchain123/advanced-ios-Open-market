@@ -150,6 +150,11 @@ final class ListCollectionViewCell: UICollectionViewListCell {
             totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5)
         ])
     }
+
+    override func prepareForReuse() {
+        itemThumbnailImageView.image = nil
+        itemPriceLabel.attributedText = nil
+    }
 }
 
 //MARK: Extension CALayer

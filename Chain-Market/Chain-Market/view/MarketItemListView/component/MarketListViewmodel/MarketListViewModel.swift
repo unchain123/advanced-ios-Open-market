@@ -36,9 +36,9 @@ final class MarketItemListViewModel {
         networkManager.fetchList { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success(let success):
-                self.marketItems = success
-                self.delegate?.delegate(input: self.marketItems)
+            case .success(let data):
+                self.marketItems = data
+                self.delegate?.applySnapshot(input: self.marketItems)
             case .failure(let error):
                 print("\(error.localizedDescription)")
             }
@@ -47,5 +47,5 @@ final class MarketItemListViewModel {
 }
 
 protocol CustomDelegate {
-    func delegate(input: [MarketItem])
+    func applySnapshot(input: [MarketItem])
 }

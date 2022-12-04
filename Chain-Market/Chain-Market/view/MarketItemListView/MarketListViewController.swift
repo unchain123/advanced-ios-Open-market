@@ -11,7 +11,7 @@ private enum Section {
     case main
 }
 
-class MarketListViewController: UIViewController {
+final class MarketListViewController: UIViewController {
     private typealias DiffableDataSource = UICollectionViewDiffableDataSource<Section, MarketItem>
 
     let networkManager = NetworkManager()
@@ -20,7 +20,7 @@ class MarketListViewController: UIViewController {
     private let viewModel = MarketItemListViewModel()
 
     private lazy var listCollectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         return collectionView
@@ -35,9 +35,18 @@ class MarketListViewController: UIViewController {
         return button
     }()
 
+    private lazy var gridButton: UIButton = {
+        let button = UIButton()
+        let configuration = UIImage.SymbolConfiguration(weight: .bold)
+        let image = UIImage(systemName: "square.grid.2x2", withConfiguration: configuration)
+        button.setImage(image, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addedButton)
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: addedButton), UIBarButtonItem(customView: gridButton)]
         setUI()
         setCollectionViewConstraint()
         viewModel.delegate = self
@@ -60,10 +69,10 @@ class MarketListViewController: UIViewController {
     }
 }
 
-// MARK: CollectionLayout
+// MARK: CollectionViewLayout
 
 extension MarketListViewController {
-    private func createLayout() -> UICollectionViewLayout {
+    private func createListLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                               heightDimension: .fractionalHeight(1.35))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -80,6 +89,8 @@ extension MarketListViewController {
     }
 }
 
+//MARK: DiffableDataSource
+
 extension MarketListViewController {
     private func configureDataSource() -> DiffableDataSource? {
 
@@ -94,9 +105,13 @@ extension MarketListViewController {
 
 //MARK: Delegate
 extension MarketListViewController: CustomDelegate {
-    func delegate(input: [MarketItem]) {
+    func applySnapshot(input: [MarketItem]) {
         snapShot.appendSections([.main])
         snapShot.appendItems(input, toSection: .main)
         dataSource?.apply(snapShot, animatingDifferences: false)
+    }
+
+    func changeLayout() {
+
     }
 }

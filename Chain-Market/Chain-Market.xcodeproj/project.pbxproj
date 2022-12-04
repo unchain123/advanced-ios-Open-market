@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8F840BC4293B6E13005EFAAA /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F840BC3293B6E13005EFAAA /* CacheManager.swift */; };
+		8F840BCB293C65B1005EFAAA /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F840BCA293C65B1005EFAAA /* GridCollectionViewCell.swift */; };
 		8F8DBF72292FD877002E6ABF /* MarketListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8DBF5C292FD876002E6ABF /* MarketListViewModel.swift */; };
 		8F8DBF74292FD877002E6ABF /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8DBF5E292FD876002E6ABF /* ListCollectionViewCell.swift */; };
 		8F8DBF75292FD877002E6ABF /* MarketListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8DBF5F292FD876002E6ABF /* MarketListViewController.swift */; };
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		8F840BC3293B6E13005EFAAA /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
+		8F840BCA293C65B1005EFAAA /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		8F8DBF43292FD863002E6ABF /* Chain-Market.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chain-Market.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F8DBF54292FD863002E6ABF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8F8DBF5C292FD876002E6ABF /* MarketListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketListViewModel.swift; sourceTree = "<group>"; };
@@ -61,6 +63,32 @@
 			path = ThumbnailCache;
 			sourceTree = "<group>";
 		};
+		8F840BC5293C64FC005EFAAA /* view */ = {
+			isa = PBXGroup;
+			children = (
+				8F8DBF5A292FD876002E6ABF /* MarketItemListView */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		8F840BCC293C68C3005EFAAA /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				8F8DBF5E292FD876002E6ABF /* ListCollectionViewCell.swift */,
+				8F840BCA293C65B1005EFAAA /* GridCollectionViewCell.swift */,
+			);
+			path = cell;
+			sourceTree = "<group>";
+		};
+		8F840BCD293C7077005EFAAA /* component */ = {
+			isa = PBXGroup;
+			children = (
+				8F8DBF5B292FD876002E6ABF /* MarketListViewmodel */,
+				8F840BCC293C68C3005EFAAA /* cell */,
+			);
+			path = component;
+			sourceTree = "<group>";
+		};
 		8F8DBF3A292FD863002E6ABF = {
 			isa = PBXGroup;
 			children = (
@@ -81,9 +109,9 @@
 			isa = PBXGroup;
 			children = (
 				8F8DBF54292FD863002E6ABF /* Info.plist */,
-				8F8DBF64292FD877002E6ABF /* extension */,
-				8F8DBF5A292FD876002E6ABF /* MarketItemListView */,
+				8F840BC5293C64FC005EFAAA /* view */,
 				8F8DBF67292FD877002E6ABF /* Model */,
+				8F8DBF64292FD877002E6ABF /* extension */,
 				8F8DBF60292FD877002E6ABF /* Networking */,
 				8F8DBF6A292FD877002E6ABF /* Sources */,
 			);
@@ -94,18 +122,17 @@
 			isa = PBXGroup;
 			children = (
 				8F8DBF5F292FD876002E6ABF /* MarketListViewController.swift */,
-				8F8DBF5E292FD876002E6ABF /* ListCollectionViewCell.swift */,
-				8F8DBF5B292FD876002E6ABF /* Viewmodel */,
+				8F840BCD293C7077005EFAAA /* component */,
 			);
 			path = MarketItemListView;
 			sourceTree = "<group>";
 		};
-		8F8DBF5B292FD876002E6ABF /* Viewmodel */ = {
+		8F8DBF5B292FD876002E6ABF /* MarketListViewmodel */ = {
 			isa = PBXGroup;
 			children = (
 				8F8DBF5C292FD876002E6ABF /* MarketListViewModel.swift */,
 			);
-			path = Viewmodel;
+			path = MarketListViewmodel;
 			sourceTree = "<group>";
 		};
 		8F8DBF60292FD877002E6ABF /* Networking */ = {
@@ -237,6 +264,7 @@
 				8F8DBF72292FD877002E6ABF /* MarketListViewModel.swift in Sources */,
 				8F8DBF78292FD877002E6ABF /* EndPoint.swift in Sources */,
 				8F8DBF7D292FD877002E6ABF /* AppDelegate.swift in Sources */,
+				8F840BCB293C65B1005EFAAA /* GridCollectionViewCell.swift in Sources */,
 				8F840BC4293B6E13005EFAAA /* CacheManager.swift in Sources */,
 				8F8DBF79292FD877002E6ABF /* string+extensions.swift in Sources */,
 				8F8DBF75292FD877002E6ABF /* MarketListViewController.swift in Sources */,

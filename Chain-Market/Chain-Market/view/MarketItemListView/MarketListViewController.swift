@@ -16,11 +16,19 @@ final class MarketListViewController: UIViewController {
 
     let networkManager = NetworkManager()
     private var dataSource: DiffableDataSource?
+    private var gridDataSource: DiffableDataSource?
     private var snapShot = NSDiffableDataSourceSnapshot<Section, MarketItem>()
     private let viewModel = MarketItemListViewModel()
 
     private lazy var listCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        return collectionView
+    }()
+
+    private lazy var gridCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createGridLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         return collectionView
@@ -40,6 +48,7 @@ final class MarketListViewController: UIViewController {
         let configuration = UIImage.SymbolConfiguration(weight: .bold)
         let image = UIImage(systemName: "square.grid.2x2", withConfiguration: configuration)
         button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(changeLayout), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -52,6 +61,7 @@ final class MarketListViewController: UIViewController {
         viewModel.delegate = self
         viewModel.action(.viewDidLoad)
         listCollectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.reuseIdentifier)
+        gridCollectionView.register(GirdCollectionViewCell.self, forCellWithReuseIdentifier: GirdCollectionViewCell.reuseIdentifier)
         dataSource = configureDataSource()
     }
 
@@ -65,6 +75,15 @@ final class MarketListViewController: UIViewController {
             listCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             listCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             listCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
+        ])
+    }
+
+    private func setGridCollectionViewConstraint() {
+        NSLayoutConstraint.activate([
+            self.gridCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            self.gridCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            self.gridCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            self.gridCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
         ])
     }
 }
@@ -87,6 +106,21 @@ extension MarketListViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
+
+    private func createGridLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.42))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+        group.interItemSpacing = .fixed(10)
+        group.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+
+        let section = NSCollectionLayoutSection(group: group)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
+
 }
 
 //MARK: DiffableDataSource
@@ -101,17 +135,37 @@ extension MarketListViewController {
         }
         return dataSource
     }
+
+    private func configureGridDataSource() -> DiffableDataSource? {
+
+        let dataSource = DiffableDataSource(collectionView: gridCollectionView) { (collectionView: UICollectionView, indexPath: IndexPath, product: MarketItem ) -> UICollectionViewCell? in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GirdCollectionViewCell.reuseIdentifier, for: indexPath) as? GirdCollectionViewCell else { return GirdCollectionViewCell() }
+            cell.setupUI(product)
+            return cell
+        }
+        return dataSource
+    }
+
+    @objc func changeLayout() {
+
+        viewModel.action(.gridButton)
+        listCollectionView.isHidden = true
+        view.addSubview(gridCollectionView)
+        setGridCollectionViewConstraint()
+
+        gridDataSource = configureGridDataSource()
+    }
 }
 
 //MARK: Delegate
 extension MarketListViewController: CustomDelegate {
+    func applyGridSnapshot() {
+        gridDataSource?.apply(snapShot, animatingDifferences: false)
+    }
+
     func applySnapshot(input: [MarketItem]) {
         snapShot.appendSections([.main])
         snapShot.appendItems(input, toSection: .main)
         dataSource?.apply(snapShot, animatingDifferences: false)
-    }
-
-    func changeLayout() {
-
     }
 }

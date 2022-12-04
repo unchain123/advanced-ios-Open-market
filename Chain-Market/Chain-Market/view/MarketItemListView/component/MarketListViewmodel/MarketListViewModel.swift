@@ -9,7 +9,7 @@ import Foundation
 
 enum Action {
     case viewDidLoad
-    case button
+    case gridButton
 }
 
 final class MarketItemListViewModel {
@@ -23,8 +23,8 @@ final class MarketItemListViewModel {
         switch action {
         case .viewDidLoad:
             list()
-        case .button:
-            print("버튼")
+        case .gridButton:
+            grid()
         }
     }
 
@@ -44,8 +44,22 @@ final class MarketItemListViewModel {
             }
         }
     }
+
+    private func grid() {
+        networkManager.fetchList { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let data):
+                self.marketItems = data
+                self.delegate?.applyGridSnapshot()
+            case .failure(let error):
+                print("\(error.localizedDescription)")
+            }
+        }
+    }
 }
 
 protocol CustomDelegate {
     func applySnapshot(input: [MarketItem])
+    func applyGridSnapshot()
 }

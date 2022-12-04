@@ -15,6 +15,10 @@ final class GirdCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(totalStackView)
         setGridView()
         setGridConstraints()
+
+        self.layer.cornerRadius = 10
+        self.layer.borderWidth = 2
+        self.layer.borderColor = UIColor.systemGray3.cgColor
     }
 
     required init?(coder: NSCoder) {
@@ -42,30 +46,38 @@ final class GirdCollectionViewCell: UICollectionViewCell {
 
     private let itemPriceLabel: UILabel = {
         let label = UILabel()
-        label.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
+        label.setContentHuggingPriority(UILayoutPriority.required, for: .vertical)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private let bargainPriceLabel: UILabel = {
         let label = UILabel()
+        label.setContentHuggingPriority(UILayoutPriority.required, for: .vertical)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private let itemStockLabel: UILabel = {
         let label = UILabel()
-        label.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private let totalStackView: UIStackView = {
         let stack = UIStackView()
-        stack.alignment = .fill
+        stack.alignment = .center
         stack.axis = .vertical
-        stack.spacing = 5
         stack.distribution = .fillEqually
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+
+    private let priceStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.alignment = .center
+        stack.axis = .vertical
+        stack.distribution = .fill
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -140,21 +152,27 @@ final class GirdCollectionViewCell: UICollectionViewCell {
     }
 
     private func setGridView() {
+        priceStackView.addArrangedSubview(itemPriceLabel)
+        priceStackView.addArrangedSubview(bargainPriceLabel)
+        
         totalStackView.addArrangedSubview(itemNameLabel)
-        totalStackView.addArrangedSubview(bargainPriceLabel)
-        totalStackView.addArrangedSubview(itemPriceLabel)
+        totalStackView.addArrangedSubview(priceStackView)
         totalStackView.addArrangedSubview(itemStockLabel)
     }
 
     private func setGridConstraints() {
         NSLayoutConstraint.activate([
             //MARK: itemThumbnailImageView
-            itemThumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            itemThumbnailImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 10),
-            itemThumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            itemThumbnailImageView.widthAnchor.constraint(equalTo: itemThumbnailImageView.heightAnchor),
+            itemThumbnailImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5),
+            itemThumbnailImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: -60),
+            itemThumbnailImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+//            itemThumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+//            itemThumbnailImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+//            itemThumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             //MARK: totalStackView
-            totalStackView.topAnchor.constraint(equalTo: itemThumbnailImageView.bottomAnchor, constant: 5),
-            totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 5),
+            totalStackView.topAnchor.constraint(equalTo: itemThumbnailImageView.bottomAnchor),
+            totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             totalStackView.leadingAnchor.constraint(equalTo: itemThumbnailImageView.leadingAnchor),
             totalStackView.trailingAnchor.constraint(equalTo: itemThumbnailImageView.trailingAnchor)
         ])

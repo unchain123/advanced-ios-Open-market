@@ -9,7 +9,7 @@ import Foundation
 
 enum Action {
     case viewDidLoad
-    case gridButton
+    case layoutChangeButton
 }
 
 final class MarketItemListViewModel {
@@ -23,7 +23,7 @@ final class MarketItemListViewModel {
         switch action {
         case .viewDidLoad:
             list()
-        case .gridButton:
+        case .layoutChangeButton:
             grid()
         }
     }

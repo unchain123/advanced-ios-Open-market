@@ -48,7 +48,17 @@ final class MarketListViewController: UIViewController {
         let configuration = UIImage.SymbolConfiguration(weight: .bold)
         let image = UIImage(systemName: "square.grid.2x2", withConfiguration: configuration)
         button.setImage(image, for: .normal)
-        button.addTarget(self, action: #selector(changeLayout), for: .touchUpInside)
+        button.addTarget(self, action: #selector(changeToGridLayout), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
+    private lazy var listButton: UIButton = {
+        let button = UIButton()
+        let configuration = UIImage.SymbolConfiguration(weight: .bold)
+        let image = UIImage(systemName: "list.bullet", withConfiguration: configuration)
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(changeToListLayout), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -57,7 +67,7 @@ final class MarketListViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: addedButton), UIBarButtonItem(customView: gridButton)]
         setUI()
-        setCollectionViewConstraint()
+        setListCollectionViewConstraint()
         viewModel.delegate = self
         viewModel.action(.viewDidLoad)
         listCollectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.reuseIdentifier)
@@ -67,9 +77,11 @@ final class MarketListViewController: UIViewController {
 
     private func setUI() {
         view.addSubview(listCollectionView)
+        view.addSubview(gridCollectionView)
+        gridCollectionView.isHidden = true
     }
 
-    private func setCollectionViewConstraint() {
+    private func setListCollectionViewConstraint() {
         NSLayoutConstraint.activate([
             listCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
             listCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
@@ -146,14 +158,22 @@ extension MarketListViewController {
         return dataSource
     }
 
-    @objc func changeLayout() {
-
-        viewModel.action(.gridButton)
+    @objc func changeToGridLayout() {
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: addedButton), UIBarButtonItem(customView: listButton)]
+        viewModel.action(.layoutChangeButton)
         listCollectionView.isHidden = true
-        view.addSubview(gridCollectionView)
+        gridCollectionView.isHidden = false
         setGridCollectionViewConstraint()
-
         gridDataSource = configureGridDataSource()
+    }
+
+    @objc func changeToListLayout() {
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: addedButton), UIBarButtonItem(customView: gridButton)]
+        viewModel.action(.layoutChangeButton)
+        gridCollectionView.isHidden = true
+        listCollectionView.isHidden = false
+        setListCollectionViewConstraint()
+        dataSource = configureDataSource()
     }
 }
 
@@ -161,6 +181,7 @@ extension MarketListViewController {
 extension MarketListViewController: CustomDelegate {
     func applyGridSnapshot() {
         gridDataSource?.apply(snapShot, animatingDifferences: false)
+        dataSource?.apply(snapShot, animatingDifferences: false)
     }
 
     func applySnapshot(input: [MarketItem]) {

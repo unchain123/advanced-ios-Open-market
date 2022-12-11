@@ -39,6 +39,7 @@ final class MarketListViewController: UIViewController {
         let configuration = UIImage.SymbolConfiguration(weight: .bold)
         let image = UIImage(systemName: "plus", withConfiguration: configuration)
         button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(moveToRegistrationView), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -97,6 +98,11 @@ final class MarketListViewController: UIViewController {
             self.gridCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             self.gridCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
         ])
+    }
+
+    @objc private func moveToRegistrationView() {
+        let registrationViewController = RegistrationViewController()
+        navigationController?.pushViewController(registrationViewController, animated: true)
     }
 }
 

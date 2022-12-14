@@ -24,7 +24,7 @@ final class RegistrationViewModel {
         }
     }
 
-    private func postItem(params: PostItem, images: [UIImage]) {
+    private func postItem(params: [String: Any], images: [UIImage]) {
         networkManager.itemPost(params: params, images: images) { result in
             switch result {
             case .success(_):
@@ -37,6 +37,6 @@ final class RegistrationViewModel {
 }
 
 protocol RegistrationDelegate: AnyObject {
-    func getParams() -> PostItem
+    func getParams() -> [String: Any]
     func getImages() -> [UIImage]
 }

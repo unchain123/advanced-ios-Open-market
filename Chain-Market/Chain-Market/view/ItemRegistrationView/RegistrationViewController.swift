@@ -221,14 +221,15 @@ extension RegistrationViewController: RegistrationDelegate {
         return Currency.init(rawValue: currencyControl.selectedSegmentIndex)
     }
 
-    func getParams() -> PostItem {
-        let params = PostItem(name: itemNameField.text ?? "",
-                              description: detailTextView.text,
-                              currency: PostItem.CurrencyUnit(rawValue: (choiceCurrency()?.name)!) ?? .KRW,
-                              price: Double(itemPriceField.text!)!,
-                              discountedPrice: Double(itemBargainPriceField.text!)!,
-                              stock: Int(itemStockField.text!)!)
-        return params
+    func getParams() -> [String: Any] {
+        let params = ["name" : itemNameField.text,
+                      "description": detailTextView.text,
+                      "currency": choiceCurrency()?.name,
+                      "price": itemPriceField.text,
+                      "discounted_price": itemBargainPriceField.text,
+                      "stock": itemStockField.text
+                    ]
+        return params as [String: Any]
     }
 
     func getImages() -> [UIImage] {

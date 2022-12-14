@@ -9,16 +9,16 @@ import UIKit
 
 struct BodyMaker {
 
-    static func createPostBody(params: PostItem, images: [UIImage]) -> Data? {
+    static func createPostBody(params: [String: Any], images: [UIImage]) -> Data? {
         var postData = Data()
         let boundary = Multipart.boundaryValue
-        guard let data = try? JSONEncoder().encode(params) else { return nil }
+        guard let jsonData = createJson(params: params) else { return nil }
 
         postData.append(form: "--\(boundary)\r\n")
         postData.append(form: "Content-Disposition: form-data; name=\"params\"\r\n\r\n")
 //        postData.append(form: "Content-Type: application/json\r\n\r\n")
 
-        postData.append(data)
+        postData.append(jsonData)
         postData.append(form: "\r\n")
 
         for image in images {

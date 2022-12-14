@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F45085C29485C5500538AE4 /* CreatePostBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F45085B29485C5500538AE4 /* CreatePostBody.swift */; };
+		8F45085E2948A20700538AE4 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F45085D2948A20700538AE4 /* RegistrationViewModel.swift */; };
+		8F45087A294A004700538AE4 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F450879294A004700538AE4 /* PostModel.swift */; };
 		8F840BC4293B6E13005EFAAA /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F840BC3293B6E13005EFAAA /* CacheManager.swift */; };
 		8F840BCB293C65B1005EFAAA /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F840BCA293C65B1005EFAAA /* GridCollectionViewCell.swift */; };
 		8F840BDF294457BC005EFAAA /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F840BDE294457BC005EFAAA /* RegistrationViewController.swift */; };
@@ -26,6 +29,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8F45085B29485C5500538AE4 /* CreatePostBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostBody.swift; sourceTree = "<group>"; };
+		8F45085D2948A20700538AE4 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
+		8F450879294A004700538AE4 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		8F840BC3293B6E13005EFAAA /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		8F840BCA293C65B1005EFAAA /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		8F840BDE294457BC005EFAAA /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
@@ -96,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				8F840BDE294457BC005EFAAA /* RegistrationViewController.swift */,
+				8F45085D2948A20700538AE4 /* RegistrationViewModel.swift */,
 			);
 			path = ItemRegistrationView;
 			sourceTree = "<group>";
@@ -153,6 +160,7 @@
 				8F8DBF61292FD877002E6ABF /* NetworkManager.swift */,
 				8F8DBF62292FD877002E6ABF /* NetworkError.swift */,
 				8F8DBF63292FD877002E6ABF /* EndPoint.swift */,
+				8F45085B29485C5500538AE4 /* CreatePostBody.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -170,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				8F8DBF69292FD877002E6ABF /* MarketItem.swift */,
+				8F450879294A004700538AE4 /* PostModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -275,14 +284,17 @@
 				8F8DBF72292FD877002E6ABF /* MarketListViewModel.swift in Sources */,
 				8F8DBF78292FD877002E6ABF /* EndPoint.swift in Sources */,
 				8F8DBF7D292FD877002E6ABF /* AppDelegate.swift in Sources */,
+				8F45087A294A004700538AE4 /* PostModel.swift in Sources */,
 				8F840BDF294457BC005EFAAA /* RegistrationViewController.swift in Sources */,
 				8F840BCB293C65B1005EFAAA /* GridCollectionViewCell.swift in Sources */,
 				8F840BC4293B6E13005EFAAA /* CacheManager.swift in Sources */,
+				8F45085C29485C5500538AE4 /* CreatePostBody.swift in Sources */,
 				8F8DBF79292FD877002E6ABF /* string+extensions.swift in Sources */,
 				8F8DBF75292FD877002E6ABF /* MarketListViewController.swift in Sources */,
 				8F8DBF7E292FD877002E6ABF /* SceneDelegate.swift in Sources */,
 				8F8DBF76292FD877002E6ABF /* NetworkManager.swift in Sources */,
 				8F8DBF7A292FD877002E6ABF /* Int + extensions.swift in Sources */,
+				8F45085E2948A20700538AE4 /* RegistrationViewModel.swift in Sources */,
 				8F8DBF7C292FD877002E6ABF /* MarketItem.swift in Sources */,
 				8F8DBF77292FD877002E6ABF /* NetworkError.swift in Sources */,
 			);

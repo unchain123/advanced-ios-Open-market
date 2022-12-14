@@ -184,7 +184,7 @@ extension MarketListViewController {
 }
 
 //MARK: Delegate
-extension MarketListViewController: CustomDelegate {
+extension MarketListViewController: ItemListDelegate {
     func applyGridSnapshot() {
         gridDataSource?.apply(snapShot, animatingDifferences: false)
         dataSource?.apply(snapShot, animatingDifferences: false)

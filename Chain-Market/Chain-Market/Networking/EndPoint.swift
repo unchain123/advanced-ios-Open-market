@@ -12,6 +12,7 @@ protocol RequestProtocol {
     var queries: [String: String] { get }
     var httpMethod: HTTPMethod { get }
     var headers: [String: String] { get }
+    var isNeedIdentifier: Bool { get }
 
     func createURLRequest() throws -> URLRequest
 }
@@ -41,8 +42,10 @@ enum APIConstants {
     static let host = "openmarket.yagom-academy.kr"
     static let name = "sixthVendor"
     static let accessID = "sixthVendor"
+    static let passwordKey = "secret"
     static let secret = "ebs12345"
     static let identifier = "7184295e-4aa1-11ed-a200-354cb82ae52e"
+    //"7184295e-4aa1-11ed-a200-354cb82ae52e" "0574c520-6942-11ed-a917-43299f97bee6" "dk9r294wvfwkgvhn"
 }
 
 extension URLRequest {
@@ -73,14 +76,21 @@ extension RequestProtocol {
         components.queryItems = queries.map(URLQueryItem.init(name:value:))
         guard let url = components.url else { throw NetworkError.components }
 
-        let urlRequest = URLRequest(url: url, httpMethod: httpMethod)
+        var urlRequest = URLRequest(url: url, httpMethod: httpMethod)
 
+        urlRequest.allHTTPHeaderFields = headers
+
+        if isNeedIdentifier {
+            urlRequest.setValue(APIConstants.identifier, forHTTPHeaderField: "identifier")
+        }
+        print(urlRequest.description)
         return urlRequest
     }
 }
 
 enum EndPoint: RequestProtocol {
     case list(page: Int, itemPerPage: Int = 20)
+    case post
 
     var path: String {
         switch self {
@@ -100,10 +110,29 @@ enum EndPoint: RequestProtocol {
     }
 
     var httpMethod: HTTPMethod {
-        return HTTPMethod.get
+        switch self {
+        case .list(_, _):
+            return HTTPMethod.get
+        case .post:
+            return HTTPMethod.post
+        }
     }
 
     var headers: [String: String] {
-        return [:]
+        switch self {
+        case .list(_, _):
+            return [:]
+        case .post:
+            return ["Content-Type" : "multipart/form-data; boundary=\(Multipart.boundaryValue)"]
+        }
+    }
+
+    var isNeedIdentifier: Bool {
+        switch self {
+        case .list(_, _):
+            return false
+        default:
+            return true
+        }
     }
 }

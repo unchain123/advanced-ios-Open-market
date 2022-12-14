@@ -8,12 +8,12 @@
 import PhotosUI
 
 final class RegistrationViewController: UIViewController {
-
+    private var images: [UIImage] = []
+    private let viewModel = RegistrationViewModel()
 
     private let imagePicker : PHPickerViewController = {
         var configuration = PHPickerConfiguration()
         configuration.selectionLimit = 5
-        configuration.filter = .any(of: [.images, .livePhotos])
         let picker = PHPickerViewController(configuration: configuration)
         return picker
     }()
@@ -121,6 +121,7 @@ final class RegistrationViewController: UIViewController {
         button.setTitle("등록", for: .normal)
         button.setTitleColor(UIColor.systemBlue, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(postItem), for: .touchUpInside)
         return button
     }()
 
@@ -140,6 +141,7 @@ final class RegistrationViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: goBackButton)
         title = "상품등록"
         imagePicker.delegate = self
+        viewModel.delegate = self
 
         setUI()
         setConstraints()
@@ -186,6 +188,11 @@ final class RegistrationViewController: UIViewController {
     @objc private func addImage() {
         present(imagePicker, animated: true)
     }
+
+    @objc private func postItem() {
+        viewModel.action(.didTapRegistrationButton)
+        print("dd")
+    }
 }
 
 extension RegistrationViewController: PHPickerViewControllerDelegate {
@@ -196,12 +203,35 @@ extension RegistrationViewController: PHPickerViewControllerDelegate {
             let imageView = UIImageView()
             let itemProvider = selectedImage.itemProvider
             itemProvider.canLoadObject(ofClass: UIImage.self)
-            itemProvider.loadObject(ofClass: UIImage.self) { (picture, error) in
+            itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (picture, error) in
+                guard let self = self,
+                      let addedImage = picture as? UIImage else { return }
+                self.images.append(addedImage)
                 DispatchQueue.main.async {
                     imageView.image = picture as? UIImage
                     self.imageStackView.insertArrangedSubview(imageView, at: 0)
                 }
             }
         }
+    }
+}
+
+extension RegistrationViewController: RegistrationDelegate {
+    func choiceCurrency() -> Currency? {
+        return Currency.init(rawValue: currencyControl.selectedSegmentIndex)
+    }
+
+    func getParams() -> PostItem {
+        let params = PostItem(name: itemNameField.text ?? "",
+                              description: detailTextView.text,
+                              currency: PostItem.CurrencyUnit(rawValue: (choiceCurrency()?.name)!) ?? .KRW,
+                              price: Double(itemPriceField.text!)!,
+                              discountedPrice: Double(itemBargainPriceField.text!)!,
+                              stock: Int(itemStockField.text!)!)
+        return params
+    }
+
+    func getImages() -> [UIImage] {
+        return images
     }
 }

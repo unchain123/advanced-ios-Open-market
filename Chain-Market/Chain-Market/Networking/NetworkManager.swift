@@ -73,4 +73,15 @@ final class NetworkManager {
         let request = URLRequest(url: url)
             networkPerform(for: request, completion: completion)
     }
+
+    func itemPost(params: PostItem, images: [UIImage], completion: @escaping (Result<Data, NetworkError>) -> Void) {
+//        var newParams = params
+
+//        newParams[APIConstants.passwordKey] = APIConstants.secret
+
+        guard var request = try? EndPoint.post.createURLRequest() else { return }
+
+        request.httpBody = BodyMaker.createPostBody(params: params, images: images)
+        networkPerform(for: request, completion: completion)
+    }
 }

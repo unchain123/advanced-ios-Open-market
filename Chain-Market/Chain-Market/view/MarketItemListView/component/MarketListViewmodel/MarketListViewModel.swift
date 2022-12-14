@@ -10,13 +10,13 @@ import Foundation
 enum Action {
     case viewDidLoad
     case layoutChangeButton
+    case didTapRegistrationButton
 }
 
 final class MarketItemListViewModel {
 
-    var delegate: CustomDelegate?
+    weak var delegate: ItemListDelegate?
     let networkManager: NetworkManager = NetworkManager()
-    private var listener: (([MarketItem]) -> Void)?
     private var marketItems: [MarketItem] = []
 
     func action(_ action: Action) {
@@ -25,11 +25,9 @@ final class MarketItemListViewModel {
             list()
         case .layoutChangeButton:
             grid()
+        default:
+            return
         }
-    }
-
-    func bind(_ listener: @escaping ([MarketItem]) -> Void) {
-        self.listener = listener
     }
 
     private func list() {
@@ -59,7 +57,7 @@ final class MarketItemListViewModel {
     }
 }
 
-protocol CustomDelegate {
+protocol ItemListDelegate: AnyObject {
     func applySnapshot(input: [MarketItem])
     func applyGridSnapshot()
 }

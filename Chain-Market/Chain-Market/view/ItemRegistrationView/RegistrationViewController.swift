@@ -191,7 +191,6 @@ final class RegistrationViewController: UIViewController {
 
     @objc private func postItem() {
         viewModel.action(.didTapRegistrationButton)
-        print("dd")
     }
 }
 

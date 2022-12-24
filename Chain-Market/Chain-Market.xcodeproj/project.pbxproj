@@ -11,6 +11,7 @@
 		8F45085E2948A20700538AE4 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F45085D2948A20700538AE4 /* RegistrationViewModel.swift */; };
 		8F45087A294A004700538AE4 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F450879294A004700538AE4 /* PostModel.swift */; };
 		8F45087D294B626800538AE4 /* TapbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F45087C294B626800538AE4 /* TapbarController.swift */; };
+		8F450880294C9FEC00538AE4 /* detailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F45087F294C9FEC00538AE4 /* detailViewController.swift */; };
 		8F840BC4293B6E13005EFAAA /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F840BC3293B6E13005EFAAA /* CacheManager.swift */; };
 		8F840BCB293C65B1005EFAAA /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F840BCA293C65B1005EFAAA /* GridCollectionViewCell.swift */; };
 		8F840BDF294457BC005EFAAA /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F840BDE294457BC005EFAAA /* RegistrationViewController.swift */; };
@@ -34,6 +35,7 @@
 		8F45085D2948A20700538AE4 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		8F450879294A004700538AE4 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		8F45087C294B626800538AE4 /* TapbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapbarController.swift; sourceTree = "<group>"; };
+		8F45087F294C9FEC00538AE4 /* detailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = detailViewController.swift; sourceTree = "<group>"; };
 		8F840BC3293B6E13005EFAAA /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		8F840BCA293C65B1005EFAAA /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		8F840BDE294457BC005EFAAA /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
@@ -71,6 +73,14 @@
 				8F45087C294B626800538AE4 /* TapbarController.swift */,
 			);
 			path = Tapbar;
+			sourceTree = "<group>";
+		};
+		8F45087E294C9FCD00538AE4 /* detailView */ = {
+			isa = PBXGroup;
+			children = (
+				8F45087F294C9FEC00538AE4 /* detailViewController.swift */,
+			);
+			path = detailView;
 			sourceTree = "<group>";
 		};
 		8F840BC2293B6DEF005EFAAA /* ThumbnailCache */ = {
@@ -139,6 +149,7 @@
 			children = (
 				8F8DBF54292FD863002E6ABF /* Info.plist */,
 				8F840BC5293C64FC005EFAAA /* view */,
+				8F45087E294C9FCD00538AE4 /* detailView */,
 				8F8DBF67292FD877002E6ABF /* Model */,
 				8F8DBF64292FD877002E6ABF /* extension */,
 				8F8DBF60292FD877002E6ABF /* Networking */,
@@ -292,6 +303,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F8DBF74292FD877002E6ABF /* ListCollectionViewCell.swift in Sources */,
+				8F450880294C9FEC00538AE4 /* detailViewController.swift in Sources */,
 				8F45087D294B626800538AE4 /* TapbarController.swift in Sources */,
 				8F8DBF72292FD877002E6ABF /* MarketListViewModel.swift in Sources */,
 				8F8DBF78292FD877002E6ABF /* EndPoint.swift in Sources */,

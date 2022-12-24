@@ -69,11 +69,19 @@ final class MarketListViewController: UIViewController {
         navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: addedButton), UIBarButtonItem(customView: gridButton)]
         setUI()
         setListCollectionViewConstraint()
+        listCollectionView.delegate = self
+        gridCollectionView.delegate = self
         viewModel.delegate = self
         viewModel.action(.viewDidLoad)
         listCollectionView.register(ListCollectionViewCell.self, forCellWithReuseIdentifier: ListCollectionViewCell.reuseIdentifier)
         gridCollectionView.register(GirdCollectionViewCell.self, forCellWithReuseIdentifier: GirdCollectionViewCell.reuseIdentifier)
         dataSource = configureDataSource()
+        tabBarController?.tabBar.isHidden = false
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
     }
 
     private func setUI() {
@@ -194,5 +202,15 @@ extension MarketListViewController: ItemListDelegate {
         snapShot.appendSections([.main])
         snapShot.appendItems(input, toSection: .main)
         dataSource?.apply(snapShot, animatingDifferences: false)
+    }
+}
+
+//MARK: UICollectionViewDelegate
+extension MarketListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let product = snapShot.itemIdentifiers[indexPath.item]
+        let viewController = DetailViewController(product: product)
+
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }

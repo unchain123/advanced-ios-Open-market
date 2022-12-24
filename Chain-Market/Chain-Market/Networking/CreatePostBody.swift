@@ -58,7 +58,7 @@ extension UIImage {
 
     func compress() -> Data? {
         let quality: CGFloat = 300 / self.sizeAsKilobyte()
-        let compressedData: Data? = self.jpegData(compressionQuality: 0.1)
+        let compressedData: Data? = self.jpegData(compressionQuality: quality)
         return compressedData
     }
 

@@ -167,9 +167,7 @@ final class GirdCollectionViewCell: UICollectionViewCell {
             itemThumbnailImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5),
             itemThumbnailImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: -60),
             itemThumbnailImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-//            itemThumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-//            itemThumbnailImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-//            itemThumbnailImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+
             //MARK: totalStackView
             totalStackView.topAnchor.constraint(equalTo: itemThumbnailImageView.bottomAnchor),
             totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),

@@ -145,6 +145,7 @@ final class RegistrationViewController: UIViewController {
 
         setUI()
         setConstraints()
+        tabBarController?.tabBar.isHidden = true
     }
 
     private func setUI() {

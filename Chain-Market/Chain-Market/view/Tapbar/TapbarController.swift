@@ -15,18 +15,13 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate {
     let registrationTabView = RegistrationViewController()
     let registrationTabBarItem = UITabBarItem(title: "등록", image: UIImage(systemName: "plus.app"), tag: 1)
     lazy var registrationController = UINavigationController(rootViewController: self.registrationTabView)
-
-    let detailTabView = DetailViewController()
-    let detailTabBarItem = UITabBarItem(title: "detail", image: UIImage(systemName: "plus.app"), tag: 2)
-    lazy var detailController = UINavigationController(rootViewController: self.detailTabView)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         listNavigationController.tabBarItem = listTabBarItem
         registrationController.tabBarItem = registrationTabBarItem
-        detailController.tabBarItem = detailTabBarItem
 
-        setViewControllers([listNavigationController, registrationController, detailController], animated: true)
+        setViewControllers([listNavigationController, registrationController], animated: true)
         delegate = self
     }
 

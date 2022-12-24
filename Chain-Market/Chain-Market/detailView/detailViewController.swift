@@ -108,12 +108,25 @@ final class DetailViewController: UIViewController {
         return scrollView
     }()
 
+    private let product: MarketItem?
+
+    init(product: MarketItem) {
+        self.product = product
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        self.product = nil
+        super.init(coder: coder)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUI()
         setConstraints()
         testSet()
+        tabBarController?.tabBar.isHidden = true
     }
 
     private func setUI() {
